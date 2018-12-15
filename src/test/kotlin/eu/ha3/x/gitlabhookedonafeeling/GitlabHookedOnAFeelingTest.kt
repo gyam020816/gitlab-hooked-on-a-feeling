@@ -34,13 +34,15 @@ internal class GitlabHookedOnAFeelingTest {
                 .setBody("""[
   {
     "id": 45,
+    "name": "alpha",
     "anyRandomProperty": "",
-    "ssh_url_to_repo": "ssh://git@example.com:1234/group/project45.git"
+    "ssh_url_to_repo": "ssh://git@example.com:1234/group/alpha.git"
   },
   {
     "id": 44,
+    "name": "beta",
     "anyRandomProperty": "",
-    "ssh_url_to_repo": "ssh://git@example.com:1234/group/project44.git"
+    "ssh_url_to_repo": "ssh://git@example.com:1234/group/beta.git"
   }
 ]"""))
 
@@ -54,8 +56,8 @@ internal class GitlabHookedOnAFeelingTest {
             assertThat(it.getHeader("Accept")).isEqualTo("application/json")
         }
         assertThat(result).isEqualTo(listOf(
-                Project(45, "ssh://git@example.com:1234/group/project45.git"),
-                Project(44, "ssh://git@example.com:1234/group/project44.git")
+                Project(45, "alpha", "ssh://git@example.com:1234/group/alpha.git"),
+                Project(44, "beta", "ssh://git@example.com:1234/group/beta.git")
         ))
     }
 

@@ -14,4 +14,8 @@ interface Projects {
     fun projects(): Call<List<Project>>
 }
 
-data class Project(val id: Int, val ssh_url_to_repo: String)
+data class Project(
+        val id: Int,
+        val name: String,
+        val ssh_url_to_repo: String
+)

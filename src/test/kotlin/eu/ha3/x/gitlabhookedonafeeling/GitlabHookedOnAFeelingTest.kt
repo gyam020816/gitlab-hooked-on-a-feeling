@@ -34,11 +34,13 @@ internal class GitlabHookedOnAFeelingTest {
                 .setBody("""[
   {
     "id": 45,
-    "anyRandomProperty": ""
+    "anyRandomProperty": "",
+    "ssh_url_to_repo": "ssh://git@example.com:1234/group/project45.git"
   },
   {
     "id": 44,
-    "anyRandomProperty": ""
+    "anyRandomProperty": "",
+    "ssh_url_to_repo": "ssh://git@example.com:1234/group/project44.git"
   }
 ]"""))
 
@@ -51,7 +53,10 @@ internal class GitlabHookedOnAFeelingTest {
             assertThat(it.getHeader("Private-Token")).isEqualTo(TOKEN)
             assertThat(it.getHeader("Accept")).isEqualTo("application/json")
         }
-        assertThat(result).isEqualTo(listOf(Project(45), Project(44)))
+        assertThat(result).isEqualTo(listOf(
+                Project(45, "ssh://git@example.com:1234/group/project45.git"),
+                Project(44, "ssh://git@example.com:1234/group/project44.git")
+        ))
     }
 
 }

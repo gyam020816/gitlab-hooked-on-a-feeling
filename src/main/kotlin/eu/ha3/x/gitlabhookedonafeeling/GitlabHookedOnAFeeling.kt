@@ -31,11 +31,16 @@ class GitlabHookedOnAFeeling(
             .addConverterFactory(JacksonConverterFactory.create(KObjectMapper.newInstance()))
             .build()
             .let(retrofitModifierFn)
+    private val gitlab = retrofit.create(Projects::class.java)
 
-    fun getAllProjects(): List<Project> {
-        val gitlab = retrofit.create(Projects::class.java)
-
+    fun getAllProjects(): List<Projects.Project> {
         val call = gitlab.projects()
+
+        return call.execute().body() ?: throw IllegalStateException("body is null")
+    }
+
+    fun getHooks(projectId: Int): List<Projects.Hook> {
+        val call = gitlab.getHooks(projectId)
 
         return call.execute().body() ?: throw IllegalStateException("body is null")
     }

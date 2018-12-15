@@ -18,12 +18,11 @@ import org.junit.jupiter.api.Test
  */
 internal class GitlabHookedOnAFeelingTest {
     companion object {
-        val BASE_URL = "/api/v4/"
         val TOKEN = "sometoken"
     }
 
     val mockServer = MockWebServer()
-    val SUT = GitlabHookedOnAFeelingApi(mockServer.url(BASE_URL), TOKEN)
+    val SUT = GitlabHookedOnAFeelingApi(mockServer.url("/"), TOKEN)
 
     @AfterEach
     internal fun tearDown() {
@@ -54,7 +53,7 @@ internal class GitlabHookedOnAFeelingTest {
         // Verify
         assertThat(mockServer.requestCount).isEqualTo(1)
         mockServer.takeRequest().let {
-            assertThat(it.path).isEqualTo("${BASE_URL}projects")
+            assertThat(it.path).isEqualTo("/api/v4/projects")
             assertThat(it.getHeader("Private-Token")).isEqualTo(TOKEN)
             assertThat(it.getHeader("Accept")).isEqualTo("application/json")
         }
@@ -94,7 +93,7 @@ internal class GitlabHookedOnAFeelingTest {
         // Verify
         assertThat(mockServer.requestCount).isEqualTo(1)
         mockServer.takeRequest().let {
-            assertThat(it.path).isEqualTo("${BASE_URL}projects/45/hooks")
+            assertThat(it.path).isEqualTo("/api/v4/projects/45/hooks")
             assertThat(it.getHeader("Private-Token")).isEqualTo(TOKEN)
             assertThat(it.getHeader("Accept")).isEqualTo("application/json")
         }

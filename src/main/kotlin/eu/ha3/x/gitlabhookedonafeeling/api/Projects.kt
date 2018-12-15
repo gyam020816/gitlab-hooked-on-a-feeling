@@ -12,10 +12,10 @@ import java.time.ZonedDateTime
  * @author Ha3
  */
 interface Projects {
-    @GET("projects")
+    @GET("/api/v4/projects")
     fun projects(): Call<List<Project>>
 
-    @GET("projects/{id}/hooks")
+    @GET("/api/v4/projects/{id}/hooks")
     fun getHooks(@Path(value = "id", encoded = true) fullUrl: Int): Call<List<Hook>>
 
     data class Project(

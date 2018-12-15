@@ -1,8 +1,11 @@
 package eu.ha3.x.gitlabhookedonafeeling
 
-/**
- * (Default template)
- * Created on 2018-12-16
- *
- * @author Ha3
- */
+import eu.ha3.x.gitlabhookedonafeeling.ghoaf.IFeelingApi
+
+class GHOAF(private val api: IFeelingApi) {
+    fun execute() {
+        for (project in api.getAllProjects()) {
+            api.getHooks(project.id)
+        }
+    }
+}

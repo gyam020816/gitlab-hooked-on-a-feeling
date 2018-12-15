@@ -1,11 +1,13 @@
 package eu.ha3.x.gitlabhookedonafeeling
 
+import eu.ha3.x.gitlabhookedonafeeling.api.GitlabHookedOnAFeelingApi
+import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Hook
+import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Project
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import java.time.ZonedDateTime
 
 
 /**
@@ -21,7 +23,7 @@ internal class GitlabHookedOnAFeelingTest {
     }
 
     val mockServer = MockWebServer()
-    val SUT = GitlabHookedOnAFeeling(mockServer.url(BASE_URL), TOKEN)
+    val SUT = GitlabHookedOnAFeelingApi(mockServer.url(BASE_URL), TOKEN)
 
     @AfterEach
     internal fun tearDown() {
@@ -57,8 +59,8 @@ internal class GitlabHookedOnAFeelingTest {
             assertThat(it.getHeader("Accept")).isEqualTo("application/json")
         }
         assertThat(result).isEqualTo(listOf(
-                Projects.Project(45, "alpha", "ssh://git@example.com:1234/group/alpha.git"),
-                Projects.Project(44, "beta", "ssh://git@example.com:1234/group/beta.git")
+                Project(45, "alpha", "ssh://git@example.com:1234/group/alpha.git"),
+                Project(44, "beta", "ssh://git@example.com:1234/group/beta.git")
         ))
     }
     @Test
@@ -97,21 +99,9 @@ internal class GitlabHookedOnAFeelingTest {
             assertThat(it.getHeader("Accept")).isEqualTo("application/json")
         }
         assertThat(result).isEqualTo(listOf(
-                Projects.Hook(
+                Hook(
                         id = 6,
-                        url = "https://example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git",
-                        created_at = ZonedDateTime.parse("2018-06-22T23:33:12.214Z"),
-                        push_events = true,
-                        tag_push_events = false,
-                        merge_requests_events = false,
-                        repository_update_events = false,
-                        enable_ssl_verification = true,
-                        issues_events = false,
-                        confidential_issues_events = false,
-                        note_events = false,
-                        pipeline_events = false,
-                        wiki_page_events = false,
-                        job_events = false
+                        url = "https://example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git"
                 )
         ))
     }

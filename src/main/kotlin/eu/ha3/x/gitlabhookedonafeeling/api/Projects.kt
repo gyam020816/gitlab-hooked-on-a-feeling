@@ -1,4 +1,4 @@
-package eu.ha3.x.gitlabhookedonafeeling
+package eu.ha3.x.gitlabhookedonafeeling.api
 
 import retrofit2.Call
 import retrofit2.http.GET

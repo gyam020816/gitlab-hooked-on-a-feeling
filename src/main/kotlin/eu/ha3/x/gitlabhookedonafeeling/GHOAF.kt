@@ -1,6 +1,8 @@
 package eu.ha3.x.gitlabhookedonafeeling
 
 import eu.ha3.x.gitlabhookedonafeeling.service.Command
+import eu.ha3.x.gitlabhookedonafeeling.service.Hook
+import eu.ha3.x.gitlabhookedonafeeling.service.Project
 import eu.ha3.x.gitlabhookedonafeeling.system.IGitLabFeelingApi
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -13,23 +15,32 @@ class GHOAF(private val api: IGitLabFeelingApi, private val jenkinsUrl: String) 
     }
 
     fun execute() {
-        for (project in api.getAllProjects()) {
-            val encodedSshUrl = URLEncoder.encode(project.sshUrl, StandardCharsets.UTF_8.name())
-            val finalUrl = "${jenkinsUrl}git/notifyCommit?url=$encodedSshUrl"
+        api.getAllProjects().forEach(::update)
+    }
 
-            val hooks = api.getHooks(project.projectId)
-            for (hook in hooks) {
-                if (hook.url.startsWith(jenkinsUrl) && hook.url != finalUrl) {
-                    api.deleteHook(Command.DeleteHook(project.projectId, hook.hookId))
-                }
-            }
+    private fun update(project: Project) {
+        val encodedSshUrl = URLEncoder.encode(project.sshUrl, StandardCharsets.UTF_8.name())
+        val finalUrl = "${jenkinsUrl}git/notifyCommit?url=$encodedSshUrl"
 
-            val hookAlreadyExists = hooks
-                    .any { it.url == finalUrl }
+        val jenkinsHooks = getAllJenkinsHooks(project)
 
-            if (!hookAlreadyExists) {
-                api.createHook(Command.CreateHook(project.projectId, finalUrl))
-            }
+        removeObsoleteHooks(jenkinsHooks, finalUrl, project)
+        createHookIfNotExists(jenkinsHooks, finalUrl, project)
+    }
+
+    private fun getAllJenkinsHooks(project: Project) =
+            api.getHooks(project.projectId).filter { it.url.startsWith(jenkinsUrl) }
+
+    private fun createHookIfNotExists(jenkinsHooks: List<Hook>, finalUrl: String, project: Project) {
+        val hookAlreadyExists = jenkinsHooks.any { it.url == finalUrl }
+        if (!hookAlreadyExists) {
+            api.createHook(Command.CreateHook(project.projectId, finalUrl))
         }
+    }
+
+    private fun removeObsoleteHooks(jenkinsHooks: List<Hook>, finalUrl: String, project: Project) {
+        jenkinsHooks
+                .filter { it.url != finalUrl }
+                .forEach { api.deleteHook(Command.DeleteHook(project.projectId, it.hookId)) }
     }
 }

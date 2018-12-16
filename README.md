@@ -1,11 +1,20 @@
 gitlab-hooked-on-a-feeling
 ====
 
-Auto-trigger Jenkins builds when code is pushed on a GitLab server.
+
+When this application is executed, it creates a hook in every GitLab project so that Jenkins is notified of new commits.
+
+If the Jenkins is configured according to [Git Plugin](https://wiki.jenkins.io/display/JENKINS/Git+Plugin#GitPlugin-Pushnotificationfromrepository) `notifyCommit`, this should in turn trigger builds.
+
+> This will scan all the jobs that:
+> 
+> Have Build Triggers > Poll SCM enabled.  No polling Schedule is required.
+> Are configured to build the repository at the specified URL
+> Are configured to build the optionally specified branches or commit ID
+>
+> For jobs that meet these conditions, polling will be immediately triggered.  If polling finds a change worthy of a build, a build will in turn be triggered.
 
 [![Hooked on a Feeling](https://img.youtube.com/vi/PJQVlVHsFF8/102.jpg)](https://www.youtube.com/watch?v=PJQVlVHsFF8 "David Hasselhoff - Hooked on a Feeling")
-
-When this application is executed, it scans GitLab projects and creates a hook in GitLab so that a Jenkins server is notified of new commits ([Git Plugin](https://wiki.jenkins.io/display/JENKINS/Git+Plugin#GitPlugin-Pushnotificationfromrepository) `notifyCommit`).
 
 It requires:
 - a GitLab URL

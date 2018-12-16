@@ -29,7 +29,7 @@ pipeline {
                 checkout scm
                 sh 'ls'
                 sh '''
-                    mvn -Dmaven.repo.local=/tmp/maven_local_repo clean package assembly:assembly
+                    mvn -Dmaven.repo.local=/tmp/maven_local_repo clean package assembly:assembly -DskipTests=true
                 '''
                 sh "java -jar target/gitlabhookedonafeeling.jar --gitlab_url=${params.gitlab_url} --gitlab_token=${params.gitlab_token} --jenkins_url=${params.jenkins_url}"
             }

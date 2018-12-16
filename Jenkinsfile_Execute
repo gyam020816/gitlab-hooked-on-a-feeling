@@ -31,7 +31,7 @@ pipeline {
                 sh '''
                     mvn -Dmaven.repo.local=/tmp/maven_local_repo clean package assembly:assembly
                 '''
-                sh "java -jar target/gitlabhookedonafeeling.jar --gitlab_url=${gitlab_url} --gitlab_token=${gitlab_token} --jenkins_url=${jenkins_url}"
+                sh "java -jar target/gitlabhookedonafeeling.jar --gitlab_url=${params.gitlab_url} --gitlab_token=${params.gitlab_token} --jenkins_url=${params.jenkins_url}"
             }
         }
     }

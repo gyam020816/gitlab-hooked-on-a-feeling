@@ -6,6 +6,7 @@ import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Hook
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.IFeelingApi
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Project
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 /**
  * (Default template)
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.Test
  */
 internal class GHOAFTest {
     private val feelingApi = mock<IFeelingApi>()
-    private val SUT = GHOAF(feelingApi, "https://jenkins.example.com")
+    private val SUT = GHOAF(feelingApi, "https://jenkins.example.com/")
 
     @Test
     internal fun `it should create hooks for all projects`() {
@@ -56,5 +57,13 @@ internal class GHOAFTest {
         verify(feelingApi, times(1)).createHook(Command.CreateHook(1, "https://jenkins.example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git"))
         verify(feelingApi, times(1)).createHook(any())
         verify(feelingApi, times(1)).getHooks(2)
+    }
+}
+
+internal class GHOAFTest_NoSetup {
+    @Test
+    internal fun `it should not create instances when url does not end with slash`() {
+        // Exercise and Verify
+        assertThrows<IllegalArgumentException> { GHOAF(mock(), "https://bad-jenkins.example.com") }
     }
 }

@@ -61,9 +61,11 @@ class GitlabHookedOnAFeelingApi(
     }
 
     override fun createHook(command: Command.CreateHook) {
-        gitlab.createHook(command.projectId, Projects.CreateHookRequestBody(
+        val call = gitlab.createHook(command.projectId, Projects.CreateHookRequestBody(
                 url = command.url,
                 enable_ssl_verification = true
         ))
+
+        call.execute()
     }
 }

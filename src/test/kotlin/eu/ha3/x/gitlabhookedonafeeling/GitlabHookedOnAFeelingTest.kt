@@ -120,11 +120,11 @@ internal class GitlabHookedOnAFeelingTest {
         mockServer.takeRequest().let {
             assertThat(it.path).isEqualTo("/api/v4/projects/45/hooks")
             assertThat(it.method).isEqualTo("POST")
-            assertThat(it.getHeader("Content-Type")).isEqualTo("application/json")
+            assertThat(it.getHeader("Content-Type")).startsWith("application/json")
             assertThat(it.getHeader("Private-Token")).isEqualTo(TOKEN)
-            assertThatJson(it.body).isEqualTo("""{
+            assertThatJson(it.body.readUtf8()).isEqualTo("""{
   "url": "https://example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git",
-  "enable_ssl_verification": "true"
+  "enable_ssl_verification": true
 }""")
         }
     }

@@ -1,6 +1,5 @@
-package eu.ha3.x.gitlabhookedonafeeling
+package eu.ha3.x.gitlabhookedonafeeling.api
 
-import eu.ha3.x.gitlabhookedonafeeling.api.GitlabHookedOnAFeelingApi
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Command
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Hook
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Project

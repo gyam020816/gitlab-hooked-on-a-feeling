@@ -1,7 +1,9 @@
 package eu.ha3.x.gitlabhookedonafeeling.api
 
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import java.time.ZonedDateTime
 
@@ -16,7 +18,10 @@ interface Projects {
     fun projects(): Call<List<Project>>
 
     @GET("/api/v4/projects/{id}/hooks")
-    fun getHooks(@Path(value = "id", encoded = true) fullUrl: Int): Call<List<Hook>>
+    fun getHooks(@Path(value = "id") id: Int): Call<List<Hook>>
+
+    @POST("/api/v4/projects/{id}/hooks")
+    fun createHook(@Path(value = "id") id: Int, @Body body: CreateHookRequestBody): Call<Void>
 
     data class Project(
             val id: Int,
@@ -41,4 +46,8 @@ interface Projects {
             val job_events: Boolean?
     )
 
+    data class CreateHookRequestBody(
+            val url: String,
+            val enable_ssl_verification: Boolean
+    )
 }

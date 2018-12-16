@@ -1,8 +1,10 @@
 package eu.ha3.x.gitlabhookedonafeeling
 
 import eu.ha3.x.gitlabhookedonafeeling.api.GitlabHookedOnAFeelingApi
+import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Command
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Hook
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Project
+import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
@@ -47,7 +49,7 @@ internal class GitlabHookedOnAFeelingTest {
   }
 ]"""))
 
-        // Execute
+        // Exercise
         val result = SUT.getAllProjects()
 
         // Verify
@@ -62,6 +64,7 @@ internal class GitlabHookedOnAFeelingTest {
                 Project(44, "beta", "ssh://git@example.com:1234/group/beta.git")
         ))
     }
+
     @Test
     internal fun `it should get all hooks of a project`() {
         mockServer.enqueue(MockResponse()
@@ -87,7 +90,7 @@ internal class GitlabHookedOnAFeelingTest {
   }
 ]"""))
 
-        // Execute
+        // Exercise
         val result = SUT.getHooks(45)
 
         // Verify
@@ -99,10 +102,30 @@ internal class GitlabHookedOnAFeelingTest {
         }
         assertThat(result).isEqualTo(listOf(
                 Hook(
-                        id = 6,
+                        hookId = 6,
                         url = "https://example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git"
                 )
         ))
     }
 
+    @Test
+    internal fun `it should create a hook`() {
+        mockServer.enqueue(MockResponse().setBody("{}"))
+
+        // Exercise
+        SUT.createHook(Command.CreateHook(45, "https://example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git"))
+
+        // Verify
+        assertThat(mockServer.requestCount).isEqualTo(1)
+        mockServer.takeRequest().let {
+            assertThat(it.path).isEqualTo("/api/v4/projects/45/hooks")
+            assertThat(it.method).isEqualTo("POST")
+            assertThat(it.getHeader("Content-Type")).isEqualTo("application/json")
+            assertThat(it.getHeader("Private-Token")).isEqualTo(TOKEN)
+            assertThatJson(it.body).isEqualTo("""{
+  "url": "https://example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git",
+  "enable_ssl_verification": "true"
+}""")
+        }
+    }
 }

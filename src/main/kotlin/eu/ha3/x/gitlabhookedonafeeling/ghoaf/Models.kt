@@ -7,12 +7,19 @@ package eu.ha3.x.gitlabhookedonafeeling.ghoaf
  * @author Ha3
  */
 data class Project(
-        val id: Int,
+        val projectId: Int,
         val name: String,
         val sshUrl: String
 )
 
 data class Hook(
-        val id: Int,
+        val hookId: Int,
         val url: String
 )
+
+class Command {
+    data class CreateHook(
+            val projectId: Int,
+            val url: String
+    )
+}

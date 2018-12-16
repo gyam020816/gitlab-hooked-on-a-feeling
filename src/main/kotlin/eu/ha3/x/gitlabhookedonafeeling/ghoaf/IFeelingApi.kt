@@ -9,4 +9,5 @@ package eu.ha3.x.gitlabhookedonafeeling.ghoaf
 interface IFeelingApi {
     fun getAllProjects(): List<Project>
     fun getHooks(projectId: Int): List<Hook>
+    fun createHook(command: Command.CreateHook)
 }

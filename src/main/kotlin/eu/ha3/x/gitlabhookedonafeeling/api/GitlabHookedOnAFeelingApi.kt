@@ -1,5 +1,6 @@
 package eu.ha3.x.gitlabhookedonafeeling.api
 
+import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Command
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Hook
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.IFeelingApi
 import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Project
@@ -41,7 +42,7 @@ class GitlabHookedOnAFeelingApi(
 
         return call.execute().body()?.map {
             Project(
-                    id = it.id,
+                    projectId = it.id,
                     name = it.name,
                     sshUrl = it.ssh_url_to_repo
             )
@@ -53,9 +54,16 @@ class GitlabHookedOnAFeelingApi(
 
         return call.execute().body()?.map {
             Hook(
-                    id = it.id,
+                    hookId = it.id,
                     url = it.url
             )
         } ?: throw IllegalStateException("body is null")
+    }
+
+    override fun createHook(command: Command.CreateHook) {
+        gitlab.createHook(command.projectId, Projects.CreateHookRequestBody(
+                url = command.url,
+                enable_ssl_verification = true
+        ))
     }
 }

@@ -18,6 +18,8 @@ If the Jenkins is configured according to [Git Plugin](https://wiki.jenkins.io/d
 >
 > For jobs that meet these conditions, polling will be immediately triggered.  If polling finds a change worthy of a build, a build will in turn be triggered.
 
+It also works *Multibranch Pipeline* jobs without needing to configure anything related to *Poll SCM*, but I could not find it documented within Git Plugin.
+
 It requires:
 - a GitLab URL
 - a GitLab personal access token

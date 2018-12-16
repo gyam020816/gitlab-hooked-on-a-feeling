@@ -21,7 +21,7 @@ class Arguments(parser: ArgParser) {
     val gitlabUrl by parser.storing(
             "--gitlab_url",
             help = "gitlab root url ending with a /")
-            .addValidator { if (!value.endsWith("/")) throw InvalidArgumentException("gitlab root url url must end with a /") }
+            .addValidator { if (!value.endsWith("/")) throw InvalidArgumentException("gitlab root url must end with a /") }
 
     val gitlabApiToken by parser.storing(
             "--gitlab_token",
@@ -30,5 +30,5 @@ class Arguments(parser: ArgParser) {
     val jenkinsUrl by parser.storing(
             "--jenkins_url",
             help = "jenkins root url ending with a /")
-            .addValidator { if (!value.endsWith("/")) throw InvalidArgumentException("jenkins root url url must end with a /") }
+            .addValidator { if (!value.endsWith("/")) throw InvalidArgumentException("jenkins root url must end with a /") }
 }

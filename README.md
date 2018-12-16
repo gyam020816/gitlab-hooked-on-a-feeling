@@ -3,6 +3,8 @@ gitlab-hooked-on-a-feeling
 
 Auto-trigger Jenkins builds when code is pushed on a GitLab server.
 
+[![Hooked on a Feeling](https://img.youtube.com/vi/PJQVlVHsFF8/102.jpg)](https://www.youtube.com/watch?v=PJQVlVHsFF8 "David Hasselhoff - Hooked on a Feeling")
+
 When this application is executed, it scans GitLab projects and creates a hook in GitLab so that a Jenkins server is notified of new commits ([Git Plugin](https://wiki.jenkins.io/display/JENKINS/Git+Plugin#GitPlugin-Pushnotificationfromrepository) `notifyCommit`).
 
 It requires:

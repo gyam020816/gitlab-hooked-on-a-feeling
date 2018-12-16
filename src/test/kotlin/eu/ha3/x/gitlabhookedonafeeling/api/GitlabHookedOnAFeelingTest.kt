@@ -127,4 +127,20 @@ internal class GitlabHookedOnAFeelingTest {
 }""")
         }
     }
+
+    @Test
+    internal fun `it should delete a hook`() {
+        mockServer.enqueue(MockResponse().setBody("{}"))
+
+        // Exercise
+        SUT.deleteHook(Command.DeleteHook(45, 101))
+
+        // Verify
+        assertThat(mockServer.requestCount).isEqualTo(1)
+        mockServer.takeRequest().let {
+            assertThat(it.path).isEqualTo("/api/v4/projects/45/hooks/101")
+            assertThat(it.method).isEqualTo("DELETE")
+            assertThat(it.getHeader("Private-Token")).isEqualTo(TOKEN)
+        }
+    }
 }

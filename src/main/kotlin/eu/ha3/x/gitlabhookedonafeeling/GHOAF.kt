@@ -14,12 +14,21 @@ class GHOAF(private val api: IFeelingApi, private val jenkinsUrl: String) {
 
     fun execute() {
         for (project in api.getAllProjects()) {
-            val hookAlreadyExists = api.getHooks(project.projectId)
-                    .any { it.url.startsWith(jenkinsUrl) }
+            val encodedSshUrl = URLEncoder.encode(project.sshUrl, StandardCharsets.UTF_8.name())
+            val finalUrl = "${jenkinsUrl}git/notifyCommit?url=$encodedSshUrl"
+
+            val hooks = api.getHooks(project.projectId)
+            for (hook in hooks) {
+                if (hook.url.startsWith(jenkinsUrl) && hook.url != finalUrl) {
+                    api.deleteHook(Command.DeleteHook(project.projectId, hook.hookId))
+                }
+            }
+
+            val hookAlreadyExists = hooks
+                    .any { it.url == finalUrl }
 
             if (!hookAlreadyExists) {
-                val encodedSshUrl = URLEncoder.encode(project.sshUrl, StandardCharsets.UTF_8.name())
-                api.createHook(Command.CreateHook(project.projectId, "${jenkinsUrl}git/notifyCommit?url=$encodedSshUrl"))
+                api.createHook(Command.CreateHook(project.projectId, finalUrl))
             }
         }
     }

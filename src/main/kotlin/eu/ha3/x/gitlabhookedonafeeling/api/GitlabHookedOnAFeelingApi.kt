@@ -68,4 +68,10 @@ class GitlabHookedOnAFeelingApi(
 
         call.execute()
     }
+    override fun deleteHook(command: Command.DeleteHook) {
+        val call = gitlab.deleteHook(command.projectId, command.hookId)
+
+        call.execute()
+    }
+
 }

@@ -39,14 +39,14 @@ internal class GHOAFTest {
     }
 
     @Test
-    internal fun `it should not create a hook for projects that already have a hook targeting Jenkins`() {
+    internal fun `it should not create a hook for projects that already have an up to date hook`() {
         feelingApi.stub {
             on { getAllProjects() }.thenReturn(listOf(
                     Project(1, "alpha", "ssh://git@example.com:1234/group/alpha.git"),
                     Project(2, "beta", "ssh://git@example.com:1234/group/beta.git")
             ))
             on { getHooks(1) }.thenReturn(listOf(Hook(101, "https://other.example.com/api/buildNow")))
-            on { getHooks(2) }.thenReturn(listOf(Hook(102, "https://jenkins.example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git")))
+            on { getHooks(2) }.thenReturn(listOf(Hook(102, "https://jenkins.example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Fbeta.git")))
         }
 
         // Exercice
@@ -57,6 +57,30 @@ internal class GHOAFTest {
         verify(feelingApi, times(1)).createHook(Command.CreateHook(1, "https://jenkins.example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git"))
         verify(feelingApi, times(1)).createHook(any())
         verify(feelingApi, times(1)).getHooks(2)
+    }
+
+    @Test
+    internal fun `it should delete hooks that target jenkins but with an obsolete url`() {
+        feelingApi.stub {
+            on { getAllProjects() }.thenReturn(listOf(
+                    Project(1, "alpha", "ssh://git@example.com:1234/group/alpha.git")
+            ))
+            on { getHooks(1) }.thenReturn(listOf(
+                    Hook(101, "https://jenkins.example.com//git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git"),
+                    Hook(102, "https://jenkins.example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fgroup%2Falpha.git"),
+                    Hook(103, "https://jenkins.example.com/git/notifyCommit?url=ssh%3A%2F%2Fgit%40example.com%3A1234%2Fsomeothergroup%2Falpha.git")
+            ))
+        }
+
+        // Exercice
+        SUT.execute()
+
+        // Verify
+        verify(feelingApi, times(1)).getHooks(1)
+        verify(feelingApi, times(0)).createHook(any())
+        verify(feelingApi, times(1)).deleteHook(Command.DeleteHook(1, 101))
+        verify(feelingApi, times(1)).deleteHook(Command.DeleteHook(1, 103))
+        verify(feelingApi, times(2)).deleteHook(any())
     }
 }
 

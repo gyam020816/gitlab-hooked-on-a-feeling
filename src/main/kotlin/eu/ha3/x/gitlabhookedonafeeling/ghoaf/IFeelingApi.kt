@@ -10,4 +10,5 @@ interface IFeelingApi {
     fun getAllProjects(): List<Project>
     fun getHooks(projectId: Int): List<Hook>
     fun createHook(command: Command.CreateHook)
+    fun deleteHook(command: Command.DeleteHook)
 }

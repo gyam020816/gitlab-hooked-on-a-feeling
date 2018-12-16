@@ -1,10 +1,7 @@
 package eu.ha3.x.gitlabhookedonafeeling.api
 
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import java.time.ZonedDateTime
 
 /**
@@ -22,6 +19,9 @@ interface Projects {
 
     @POST("/api/v4/projects/{id}/hooks")
     fun createHook(@Path(value = "id") id: Int, @Body body: CreateHookRequestBody): Call<Void>
+
+    @DELETE("/api/v4/projects/{id}/hooks/{hookId}")
+    fun deleteHook(@Path(value = "id") id: Int, @Path(value = "hookId") hookId: Int): Call<Void>
 
     data class Project(
             val id: Int,

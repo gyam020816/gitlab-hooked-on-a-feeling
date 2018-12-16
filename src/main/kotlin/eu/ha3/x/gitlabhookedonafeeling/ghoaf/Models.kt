@@ -22,4 +22,8 @@ class Command {
             val projectId: Int,
             val url: String
     )
+    data class DeleteHook(
+            val projectId: Int,
+            val hookId: Int
+    )
 }

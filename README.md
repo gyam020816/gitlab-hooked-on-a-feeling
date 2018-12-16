@@ -25,8 +25,9 @@ It requires:
 - a GitLab personal access token
 - a Jenkins URL
 
-Hooks are not re-created on a project if it already has a hook that starts with the Jenkins URL.
-- 🚩 Updating a hook is not currently supported (i.e. if the project group or name changes)
+In addition:
+- Hooks are not re-created on a project if the desired hook already exists.
+- Hooks with an URL that starts with the Jenkins URL are deleted if they appear to be obsolete (i.e. project name or project group or SSH URL has changed).
 - 🚩 Deleting all hooks is not currently supported (i.e. if the Jenkins URL changes)
 
 #### Build

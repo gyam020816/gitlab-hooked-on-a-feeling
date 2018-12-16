@@ -4,9 +4,9 @@ pipeline {
         label 'docker'
     }
     parameters {
-        stringParam(description: 'GitLab url ending with /', name: 'gitlab_url')
-        stringParam(description: 'GitLab personal access token', name: 'gitlab_token')
-        stringParam(description: 'Jenkins url ending with /', name: 'jenkins_url')
+        text(description: 'GitLab url ending with /', name: 'gitlab_url')
+        text(description: 'GitLab personal access token', name: 'gitlab_token')
+        text(description: 'Jenkins url ending with /', name: 'jenkins_url')
     }
     options {
         skipDefaultCheckout true

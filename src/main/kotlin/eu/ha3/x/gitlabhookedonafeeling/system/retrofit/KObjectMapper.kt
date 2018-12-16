@@ -1,4 +1,4 @@
-package eu.ha3.x.gitlabhookedonafeeling.api
+package eu.ha3.x.gitlabhookedonafeeling.system.retrofit
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

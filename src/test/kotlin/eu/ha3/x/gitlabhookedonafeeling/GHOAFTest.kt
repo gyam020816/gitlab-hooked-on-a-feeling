@@ -1,10 +1,10 @@
 package eu.ha3.x.gitlabhookedonafeeling
 
 import com.nhaarman.mockito_kotlin.*
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Command
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Hook
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.IFeelingApi
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Project
+import eu.ha3.x.gitlabhookedonafeeling.service.Command
+import eu.ha3.x.gitlabhookedonafeeling.service.Hook
+import eu.ha3.x.gitlabhookedonafeeling.service.Project
+import eu.ha3.x.gitlabhookedonafeeling.system.IGitLabFeelingApi
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.assertThrows
  * @author Ha3
  */
 internal class GHOAFTest {
-    private val feelingApi = mock<IFeelingApi>()
+    private val feelingApi = mock<IGitLabFeelingApi>()
     private val SUT = GHOAF(feelingApi, "https://jenkins.example.com/")
 
     @Test

@@ -1,8 +1,8 @@
-package eu.ha3.x.gitlabhookedonafeeling.api
+package eu.ha3.x.gitlabhookedonafeeling.system.retrofit
 
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Command
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Hook
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Project
+import eu.ha3.x.gitlabhookedonafeeling.service.Command
+import eu.ha3.x.gitlabhookedonafeeling.service.Hook
+import eu.ha3.x.gitlabhookedonafeeling.service.Project
 import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -17,13 +17,13 @@ import org.junit.jupiter.api.Test
  *
  * @author Ha3
  */
-internal class GitlabHookedOnAFeelingTest {
+internal class RetrofitGitLabFeelingApiTest {
     companion object {
         val TOKEN = "sometoken"
     }
 
     val mockServer = MockWebServer()
-    val SUT = GitlabHookedOnAFeelingApi(mockServer.url("/"), TOKEN)
+    val SUT = RetrofitGitLabFeelingApi(mockServer.url("/"), TOKEN)
 
     @AfterEach
     internal fun tearDown() {

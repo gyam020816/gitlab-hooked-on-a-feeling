@@ -1,4 +1,4 @@
-package eu.ha3.x.gitlabhookedonafeeling.ghoaf
+package eu.ha3.x.gitlabhookedonafeeling.service
 
 /**
  * (Default template)

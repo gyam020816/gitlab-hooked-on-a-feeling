@@ -1,9 +1,9 @@
-package eu.ha3.x.gitlabhookedonafeeling.api
+package eu.ha3.x.gitlabhookedonafeeling.system.retrofit
 
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Command
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Hook
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.IFeelingApi
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Project
+import eu.ha3.x.gitlabhookedonafeeling.service.Command
+import eu.ha3.x.gitlabhookedonafeeling.service.Hook
+import eu.ha3.x.gitlabhookedonafeeling.system.IGitLabFeelingApi
+import eu.ha3.x.gitlabhookedonafeeling.service.Project
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -16,11 +16,11 @@ import retrofit2.converter.jackson.JacksonConverterFactory
  *
  * @author Ha3
  */
-class GitlabHookedOnAFeelingApi(
+class RetrofitGitLabFeelingApi(
         apiUrl: HttpUrl,
         apiToken: String,
         retrofitModifierFn: (Retrofit) -> Retrofit = { o -> o }
-) : IFeelingApi {
+) : IGitLabFeelingApi {
     private val retrofit = Retrofit.Builder()
             .baseUrl(apiUrl)
             .client(OkHttpClient.Builder()

@@ -2,7 +2,7 @@ package eu.ha3.x.gitlabhookedonafeeling
 
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.InvalidArgumentException
-import eu.ha3.x.gitlabhookedonafeeling.api.GitlabHookedOnAFeelingApi
+import eu.ha3.x.gitlabhookedonafeeling.system.retrofit.RetrofitGitLabFeelingApi
 import okhttp3.HttpUrl
 
 /**
@@ -13,7 +13,7 @@ import okhttp3.HttpUrl
  */
 fun main(args: Array<String>) {
     ArgParser(args).parseInto(::Arguments).run {
-        GHOAF(GitlabHookedOnAFeelingApi(HttpUrl.get(gitlabUrl), gitlabApiToken), jenkinsUrl).execute()
+        GHOAF(RetrofitGitLabFeelingApi(HttpUrl.get(gitlabUrl), gitlabApiToken), jenkinsUrl).execute()
     }
 }
 

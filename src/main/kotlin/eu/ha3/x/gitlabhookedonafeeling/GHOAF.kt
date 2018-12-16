@@ -1,11 +1,11 @@
 package eu.ha3.x.gitlabhookedonafeeling
 
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.Command
-import eu.ha3.x.gitlabhookedonafeeling.ghoaf.IFeelingApi
+import eu.ha3.x.gitlabhookedonafeeling.service.Command
+import eu.ha3.x.gitlabhookedonafeeling.system.IGitLabFeelingApi
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-class GHOAF(private val api: IFeelingApi, private val jenkinsUrl: String) {
+class GHOAF(private val api: IGitLabFeelingApi, private val jenkinsUrl: String) {
     init {
         if (!jenkinsUrl.endsWith("/")) {
             throw IllegalArgumentException("jenkinsUrl must end with /")

@@ -1,4 +1,8 @@
-package eu.ha3.x.gitlabhookedonafeeling.ghoaf
+package eu.ha3.x.gitlabhookedonafeeling.system
+
+import eu.ha3.x.gitlabhookedonafeeling.service.Command
+import eu.ha3.x.gitlabhookedonafeeling.service.Hook
+import eu.ha3.x.gitlabhookedonafeeling.service.Project
 
 /**
  * (Default template)
@@ -6,7 +10,7 @@ package eu.ha3.x.gitlabhookedonafeeling.ghoaf
  *
  * @author Ha3
  */
-interface IFeelingApi {
+interface IGitLabFeelingApi {
     fun getAllProjects(): List<Project>
     fun getHooks(projectId: Int): List<Hook>
     fun createHook(command: Command.CreateHook)

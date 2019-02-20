@@ -11,7 +11,7 @@ import java.time.ZonedDateTime
  * @author Ha3
  */
 interface Projects {
-    @GET("/api/v4/projects")
+    @GET("/api/v4/projects?per_page=999")
     fun projects(): Call<List<Project>>
 
     @GET("/api/v4/projects/{id}/hooks")

@@ -54,7 +54,7 @@ internal class RetrofitGitLabFeelingApiTest {
         // Verify
         assertThat(mockServer.requestCount).isEqualTo(1)
         mockServer.takeRequest().let {
-            assertThat(it.path).isEqualTo("/api/v4/projects")
+            assertThat(it.path).isEqualTo("/api/v4/projects?per_page=999")
             assertThat(it.getHeader("Private-Token")).isEqualTo(TOKEN)
             assertThat(it.getHeader("Accept")).isEqualTo("application/json")
         }
